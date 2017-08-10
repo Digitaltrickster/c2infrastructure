@@ -1,0 +1,8 @@
+---
+# file: site.yml
+- hosts: all
+  gather_facts: False
+  vars_files:
+    - gce_vars/gce.yml
+
+- include: playbooks/phishing.yml

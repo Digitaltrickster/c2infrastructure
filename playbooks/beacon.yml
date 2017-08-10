@@ -1,0 +1,35 @@
+---
+
+- name: Create GCE Server
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    instance_name: "lbeacon"
+  roles:
+    - gceserver
+  tags: lbeacon
+
+- name: Create long beacon setup
+  hosts: lbeacon
+  roles:
+    - lbeacon
+  tags: lbeacon
+
+- name: Create short beacon Server
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    instance_name: "sbeacon"
+  roles:
+    - sbeacon
+  tags: sbeacon
+
+- name: Create short beacon setup
+  hosts: sbeacon
+  roles:
+    - sbeacon
+  tags: sbeacon
+
+

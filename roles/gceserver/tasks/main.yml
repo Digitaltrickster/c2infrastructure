@@ -1,0 +1,42 @@
+---
+#gceservers.yml
+
+#- name: Launch
+#  local_action: gce instance_names="{{ instance_name }}" machine_type:f1-micro image=ubuntu-16 zone=us-east2-a disk_size=30 metadata="{{ gce_ssh_key }}"
+#  register: gce
+- name: Create server
+  gce:
+    instance_names: "{{ instance_name }}"
+    zone: us-east1-b 
+    machine_type: f1-micro 
+    image: ubuntu-16  
+    disk_size: 30 
+    state: present
+  register: gce
+
+- name: Save host data
+  add_host:
+    hostname: "{{ item.public_ip }}"
+    groupname: gce_instances_ips
+  with_items: "{{ gce.instance_data }}"
+
+#- name: Wait for SSH for instances
+#  wait_for: host={{ items.public_ip }} port=22 delay=10 timemout=60 state=started
+#  with_items: gce.instance_data
+
+- name: Allow SSH
+  gce_net:
+    fwname: "all-ssh"
+    name: "default"
+    allowed: "tcp:22"
+    state: "present"
+
+- name: Wait for SSH for instances
+  wait_for:
+    delay: 1
+    host: "{{ item.public_ip }}"
+    port: 22
+    state: started
+    timeout: 30
+  with_items: "{{ gce.instance_data }}"
+

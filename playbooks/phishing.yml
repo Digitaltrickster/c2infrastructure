@@ -1,0 +1,18 @@
+---
+#file: phishing.yml
+
+- name: Create GCE Server
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    instance_name: "gophish"
+  roles:
+    - gceserver 
+  tags: phishing
+
+- name: Create phishing setup
+  hosts: gophish
+  roles:
+    - phishing
+  tags: phishing 

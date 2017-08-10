@@ -1,0 +1,5 @@
+vars:
+  service_account_email: "{{ vault_service_account_email }}"
+  credentials_file: "{{ vault_credentials_file }}"
+  project_id: "pen-testing-c2"
+  project: "Pen Testing C2 servers"
