@@ -1,0 +1,5 @@
+---
+- name: Get empire
+  - git:
+      repo: "{{ empire_repo }}"
+      clone: yes

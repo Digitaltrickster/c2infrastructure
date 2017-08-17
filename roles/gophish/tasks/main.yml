@@ -1,0 +1,15 @@
+- name: Get gophish release
+  shell: curl -s https://api.github.com/repos/boxbilling/boxbilling/releases/latest | grep browser_download_url | cut -d '"' -f 4
+  register: gophish_release
+
+
+- name: Download gophish
+  shell: wget -c {{ gophish_release['stdout'] }}
+
+- name: Allow HTTP(S)
+  gce_net:
+    name: "allow-http"
+    allowed: "tcp:80,443"
+    state: "active"
+    src_range: "{{ allowed_sources }}"
+    target_tags: "{{ tag_names }}" 

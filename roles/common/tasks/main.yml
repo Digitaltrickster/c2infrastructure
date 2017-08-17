@@ -1,0 +1,47 @@
+- name: Add Certbot repo
+  become: yes
+  become_user: root
+  become_method: sudo
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+
+- name: Update packages
+  become: yes
+  become_user: root
+  become_method: sudo
+  apt: >
+    update_cache=yes
+    upgrade=dist
+
+- name: Autoremove
+  become: yes
+  become_user: root
+  become_method: sudo
+  apt:
+    autoremove: yes
+
+- name: Install git
+  become: yes
+  become_user: root
+  become_method: sudo
+  apt:
+    name: git
+    state: latest
+
+- name: Install certbot
+  become: yes
+  become_user: root
+  become_method: sudo
+  apt:
+    name: certbot
+    state: latest
+
+#- name: Obtain or renew cert
+#  shell: certbot
+#  args:
+#    chdir: /opt/certbot
+#    executable: /bin/bash
+#  ignore_errors: true
+#  register: _certbot_command
+#  when: not letsencrypt_test
+

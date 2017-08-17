@@ -1,3 +1,67 @@
-- hosts: redirector
+--- 
+- name: Create GCE Server
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    instance_name: "httpredirector"
+    tag_names: '["https","http","httpred"]'
   roles:
-    redirector
+    - gceserver 
+  tags: httpred
+
+- name: Create http redirector setup
+  hosts: httpredirector
+  connection: ssh
+  vars:
+    instance_name: "httpredirector"
+    tag_names: '["https","http","httpred"]'
+  roles:
+    - common
+    - httpred
+  tags: httpred 
+
+- name: Create GCE Server
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    instance_name: "smtpred"
+    tag_names: '["smtp"]'
+  roles:
+    - gceserver 
+  tags: smtpred
+
+- name: Create smtp redirector
+  hosts: smtpred
+  connection: ssh
+  vars:
+    instance_name: "smtpred"
+    tag_names: '["smtp"]'
+  roles:
+    - common
+    - smtpred
+  tags: smtpred 
+
+- name: Create GCE Server
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    instance_name: "dnsred"
+    tag_names: '["dns"]'
+  roles:
+    - gceserver 
+  tags: dnsred
+
+- name: Create DNS Redirector setup
+  hosts: dnsred
+  connection: ssh
+  vars:
+    instance_name: "dnsred"
+    tag_names: '["dnsredirector"]'
+  roles:
+    - common
+    - dnsred
+  tags: dnsred 
+

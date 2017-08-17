@@ -1,18 +1,20 @@
 ---
-#file: phishing.yml
+#file: evilnginx.yml
 
 - name: Create GCE Server
   hosts: localhost
   connection: local
   gather_facts: False
   vars:
-    instance_name: "gophish"
+    instance_name: "evilnginx"
+    tag_names: "http,https,phishing"
   roles:
     - gceserver 
   tags: phishing
 
 - name: Create phishing setup
-  hosts: gophish
+  hosts: evilnginx
   roles:
-    - phishing
+    - common
+    - evilnginx
   tags: phishing 

@@ -1,1 +1,5 @@
--include: dnsred.yml tags=dnsred
+---
+
+- name: Socat DNS Redirector
+  shell: socat udp4-recvfrom:53,reuseaddr,fork udp4-sendto:"{{ hostvars[shortbeacon]['ansible_default_ipv4']['address'] }}"
+  

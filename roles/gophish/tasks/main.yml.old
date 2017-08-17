@@ -1,15 +1,15 @@
 ---
-#gceservers.yml
-
-- name: Create server
+- name: Create phishing server
   gce:
-    instance_names: "{{ instance_name }}"
-    zone: us-east1-b 
-    machine_type: f1-micro 
+    instance_names: gophish 
+    zone: us-east2-a 
+    machine_type: f1-micr0 
     image: ubuntu-16  
     disk_size: 30 
     state: present
-    tags: "{{ tag_names }}"
+#    project_id: "{{ project_id }}"
+#    service_account_email: "{{ service_account_email }}"
+#    service_account_pem_file_path: "{{ credentials_file }}"
   register: gce
 
 - name: Save host data
@@ -17,15 +17,6 @@
     hostname: "{{ item.public_ip }}"
     groupname: gce_instances_ips
   with_items: "{{ gce.instance_data }}"
-
-- name: Allow SSH
-  gce_net:
-    fwname: "all-ssh"
-    name: "default"
-    allowed: "tcp:22"
-    src_range: "0.0.0.0/0"
-    state: "active"
-    target_tags: "{{ tag_names }}"
 
 - name: Wait for SSH for instances
   wait_for:

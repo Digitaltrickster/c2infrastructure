@@ -1,0 +1,8 @@
+---
+
+allowed_sources: "140.147.0.0/16"
+domain_name: ""
+phishing_domain: ""
+empire_repo: "https://github.com/EmpireProject/Empire.git"
+evilnginx_repo: "https://github.com/kgretzky/evilginx.git"
+ssh_gce_key: "/home/justin/.ssh/gceprivate"

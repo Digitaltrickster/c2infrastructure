@@ -5,4 +5,5 @@
   vars_files:
     - gce_vars/gce.yml
 
-- include: playbooks/phishing.yml
+- include: playbooks/gophish.yml
+- include: playbooks/evilnginx.yml

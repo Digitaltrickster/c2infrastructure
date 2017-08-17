@@ -1,1 +1,20 @@
--include: httpred.yml tags=httpred
+---
+- name: Install apache
+  apt:
+    name: apache2
+    state: latest 
+
+- name: set config
+  copy:
+    src: files/apache2.conf
+    dest: /etc/apache2/
+    force: yes
+
+- name: Install modules
+  shell: a2enmod rewrite proxy proxy_http
+
+- name: Get Rewrite setup
+  shell: wget -c https://raw.githubusercontent.com/n0pe-sled/Apache2-Mod-Rewrite-Setup/master/apache_redirector_setup.py
+
+#- name: Run rewrite setup
+#  shell: python apache_redirectory_setup.py

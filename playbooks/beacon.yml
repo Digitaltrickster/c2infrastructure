@@ -1,35 +1,45 @@
 ---
+#file: beacon.yml
+- name: Create GCE Server
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    instance_name: "longbeacon"
+    tag_names: '["beacon"]'
+  roles:
+    - gceserver 
+  tags: beacon
+
+- name: Create phishing setup
+  hosts: lbeacon
+  connection: ssh
+  vars:
+    instance_name: "lbeacon"
+    tag_names: '["longbeacon"]'
+  roles:
+    - common
+    - lbeacon
+  tags: beacon 
 
 - name: Create GCE Server
   hosts: localhost
   connection: local
   gather_facts: False
   vars:
-    instance_name: "lbeacon"
+    instance_name: "shortbeacon"
+    tag_names: '["beacon"]'
   roles:
-    - gceserver
-  tags: lbeacon
+    - gceserver 
+  tags: beacon
 
-- name: Create long beacon setup
-  hosts: lbeacon
-  roles:
-    - lbeacon
-  tags: lbeacon
-
-- name: Create short beacon Server
-  hosts: localhost
-  connection: local
-  gather_facts: False
+- name: Create phishing setup
+  hosts: sbeacon
+  connection: ssh
   vars:
     instance_name: "sbeacon"
+    tag_names: '["beacon"]'
   roles:
+    - common
     - sbeacon
-  tags: sbeacon
-
-- name: Create short beacon setup
-  hosts: sbeacon
-  roles:
-    - sbeacon
-  tags: sbeacon
-
-
+  tags: beacon 
