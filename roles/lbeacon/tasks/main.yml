@@ -1,5 +1,10 @@
 ---
 - name: Get empire
-  - git:
-      repo: "{{ empire_repo }}"
-      clone: yes
+  git:
+    repo: "{{ empire_repo }}"
+    clone: yes
+
+- name: Get Veil
+  git:
+    repo: "{{ veil_repo }}"
+    clone: yes 
